@@ -1,0 +1,471 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!--Jquery-->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <!--Project-->
+    <script src="dependingFields.js"></script>
+    <title>Depending fields</title>
+</head>
+
+<body>
+
+    <div class="container" id="main">
+        <div class="col-md-1"></div>
+
+
+        <div class="col-md-10">
+
+            <h1>Dependable fields</h1>
+            <p>Hover over a calculated field (like result) to see function name and dependency ids</p>
+            <hr/>
+
+            <!--        Addition-->
+            <h2>Addition</h2>
+            <div class="row">
+
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">X</div>
+                            <input calcId="sum1" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    +
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Y</div>
+                            <input calcId="sum2" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    +
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Z</div>
+                            <input calcId="sum3" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    =
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">AResult</div>
+                            <input calculation="sum sum1 sum2 sum3" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <hr/>
+
+            <!--        Multiply-->
+            <h2>Multiply</h2>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">A</div>
+                            <input calcId="mul1" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    *
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">B</div>
+                            <input calcId="mul2" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    *
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">C</div>
+                            <input calcId="mul3" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    =
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">MResult</div>
+                            <input calcId="mulRes" calculation="multiply mul1 mul2 mul3" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!--        Copy-->
+            <h2>Copy</h2>
+            <p>Calculated fields can always manually be overrided</p>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Copy</div>
+                            <input calculation="copy mulRes" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!--        Squareroot-->
+            <h2>Squareroot</h2>
+            <p>Implement your own functions</p>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    sqrt(
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">K</div>
+                            <input calcId="square1" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    +
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">I</div>
+                            <input calcId="square2" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    ) =
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Sqrt Result</div>
+                            <input calculation="sqrt square1 square2" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!--        Text-->
+            <h2>Text</h2>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Firstname</div>
+                            <input calcId="text1" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    +
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Lastname</div>
+                            <input calcId="text2" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    =
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Full name</div>
+                            <input calculation="concatenate text1 text2" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!--        Percentage of-->
+            <h2>Percentage of</h2>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Amount</div>
+                            <input calcId="amount" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Percent</div>
+                            <input calcId="percent" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    =
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Result</div>
+                            <input calculation="percentageOf percent amount" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!--        Dates-->
+            <h2>Dates</h2>
+            <p>Calculations without parameters will be fired one-time at start</p>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Today</div>
+                            <input calcId="today" calculation="today" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    to
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">To date</div>
+                            <input calcId="to" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                    =
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Days</div>
+                            <input calculation="days today to" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!--        Chain of dependencies-->
+            <h2>Chain of dependencies</h2>
+            <p>Calculations will be chained in correct order.</p>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">A</div>
+                            <input calcId="depA" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">B</div>
+                            <input calcId="depB" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">C</div>
+                            <input calcId="depC" calculation="divide depA depB" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">D</div>
+                            <input calcId="depD" calculation="sqrt depC" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <br/>
+
+            <div class="row">
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">E</div>
+                            <input calcId="depE" calculation="sum depA depB depC depD" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">F</div>
+                            <input calcId="depF" calculation="specificCalculation depA depE depC" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">G</div>
+                            <input calcId="depG" calculation="sum depE depF" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">H</div>
+                            <input calcId="depH" calculation="concatenate depG depD" type="text" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <!--        Cyclic dependencies -->
+            <h2>Cyclic dependencies</h2>
+            <p>But be aware of cyclic dependencies (see console), currently not handled other than by Jquery</p>
+            <div class="row">
+                <form class="form-inline" role="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Copy1</div>
+                            <input calcId="cyclic1" calculation="copy cyclic2" type="text" class="form-control">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon">Copy2</div>
+                            <input calcId="cyclic2" calculation="copy cyclic1" type="text" class="form-control">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <br/>
+
+            <div class="col-md-1"></div>
+        </div>
+
+
+
+        <!--<div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <h2>You do not need bootstrap!</h1>
+                    <hr />
+                    <label>a</label>
+                    <input calcid="a" />
+                    <label>b</label>
+                    <input calcid="b" />
+                    <br />
+                    <br />
+                    <label>c=a+b</label>
+                    <input calcid="c" calculation="sum a b" />
+                    <br />
+                    <br />
+                    <label>d=c</label>
+                    <input calcid="d" calculation="copy c" />
+                    <br />
+                    <br />
+                    <label>e=sqrt(a+c)</label>
+                    <input calcid="e" calculation="sqrt a c" />
+                    <br />
+                    <br />
+                    <hr />
+                    <label>Fornavn</label>
+                    <input calcid="fornavn" />
+                    <label>Efternavn</label>
+                    <input calcid="efternavn" />
+                    <br />
+                    <br />
+                    <label>Fulde navn</label>
+                    <input calcid="fuldeNavn" calculation="concatenate fornavn efternavn" />
+                    <br />
+                    <br />
+                    <hr />
+                    <label>Kroner</label>
+                    <input calcid="kroner" />
+                    <label>Procentsats</label>
+                    <input calcid="procentsats" />
+                    <label>Andel</label>
+                    <input calcid="andel" calculation="percentageOf procentsats kroner" />
+                    <br />
+                    <br />
+                    <hr />
+                    <label>I dag</label>
+                    <input calcid="today" calculation="today" />
+                    <label>Slutdato</label>
+                    <input calcid="enddate" />
+                    <label>Dage imellem</label>
+                    <input calcid="daysInBetween" calculation="days today enddate" />
+                    <br />
+                    <br />
+                    <hr />
+                    <label>Input 1</label>
+                    <input calcId="i1" />
+                    <label>Input 2</label>
+                    <input calcid="i2" />
+                    <label>Input 3</label>
+                    <input calcid="i3" calculation="multiply i1 i2" />
+                    <label>Input 4</label>
+                    <input calcid="i4" calculation="divide i1 i2" />
+                    <label>Output</label>
+                    <input calcId="output" calculation="sum i1 i2 i3 i4" />
+                    <br />
+                    <br />
+                    <hr />
+                    <label>Input A</label>
+                    <input calcid="inputA" />
+                    <label>Input B</label>
+                    <input calcid="inputB" />
+                    <label>Output X</label>
+                    <input calcid="outputX" calculation="topdoge inputA inputB" />
+                    <br />
+                    <br />
+                    <hr />
+                    <label>cyclic dependency 1</label>
+                    <input calcid="cyclic1" calculation="copy cyclic2" />
+                    <label>cyclic dependency 2</label>
+                    <input calcid="cyclic2" calculation="copy cyclic1" />
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>-->
+
+
+        <script type="text/javascript">
+            var init = new InitDependableFields({
+                //Use calcId instead of id. Default: false
+                calcId: true,
+                //Disable instant calculations. Default: false
+                disableInstantCalculation: false,
+                //Show NaN values. Default: false
+                showNan: false,
+                //Hover over tooltip show dependencies. Default: true
+                showTooltip: true
+            });
+        </script>
+
+</body>
+
+</html>
