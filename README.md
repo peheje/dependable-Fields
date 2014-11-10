@@ -13,6 +13,7 @@ Add dependencies in html:
 <input calcid="d" calculation="copy c" />
 
 Initialize the Javascript:
+```javascript
             var init = new InitDependableFields({
                 //Use calcId instead of id. Default: false
                 calcId: true,
@@ -23,3 +24,4 @@ Initialize the Javascript:
                 //Hover over tooltip show dependencies. Default: true
                 showTooltip: true
             });
+```
