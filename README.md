@@ -7,10 +7,12 @@ See a demo here:
 https://dl.dropboxusercontent.com/u/1823537/dependingFields/index.html
 
 Add dependencies in html:
+```html
 <input calcid="a" />
 <input calcid="b" />
 <input calcid="c" calculation="sum a b" />
 <input calcid="d" calculation="copy c" />
+```
 
 Initialize the Javascript:
 ```javascript
@@ -24,4 +26,13 @@ Initialize the Javascript:
                 //Hover over tooltip show dependencies. Default: true
                 showTooltip: true
             });
+```
+
+Add your own functions:
+```javascript
+"percentageOf": function (params) {
+            var percent = parseFloat(params[0]) / 100;
+            var amount = parseFloat(params[1]);
+            return percent * amount;
+        }
 ```
