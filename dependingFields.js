@@ -265,16 +265,12 @@ var InitDependableFields = function (options) {
                 //add the dependencies changed event to the input with the given function
                 $origin.on("dependenciesChanged", function () {
                     var $self = $(this);
-                    var attrValue = $self.attr("calculation");
-                    var func = functionName(attrValue);
 
                     //If the function is defined
                     if (checkFunctionExist(func)) {
 
                         //Get the parameters from my dependencies
-                        var depIds = dependenciesId(attrValue);
-                        var depAsJquery = dependenciesAsJquery(depIds);
-                        var paramValues = dependenciesAsValue(depAsJquery);
+                        var paramValues = dependenciesAsValue(depJquery);
 
                         //Set my value equal to the result of the function given to me
                         var result = calculations[func](paramValues);
