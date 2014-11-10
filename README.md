@@ -1,4 +1,4 @@
-dependable-Fields
+<h1>dependable-Fields</h1>
 =================
 
 Javascript that makes adding calculations to input fields depending on other input fields easy. Handles dependencies, tooltips etc.
@@ -6,7 +6,7 @@ Javascript that makes adding calculations to input fields depending on other inp
 See a demo here:
 https://dl.dropboxusercontent.com/u/1823537/dependingFields/index.html
 
-Add dependencies in html:
+<h3>Add dependencies in html:</h3>
 ```html
 <input calcid="a" />
 <input calcid="b" />
@@ -14,7 +14,7 @@ Add dependencies in html:
 <input calcid="d" calculation="copy c" />
 ```
 
-Initialize the Javascript:
+<h3>Initialize the Javascript:</h3>
 ```javascript
             var init = new InitDependableFields({
                 //Use calcId instead of id. Default: false
@@ -28,7 +28,7 @@ Initialize the Javascript:
             });
 ```
 
-Add your own functions:
+<h3>Add your own functions:</h3>
 ```javascript
 "percentageOf": function (params) {
             var percent = parseFloat(params[0]) / 100;
