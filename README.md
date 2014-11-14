@@ -3,6 +3,11 @@
 
 Javascript that makes adding calculations to input fields depending on other input fields easy. Handles dependencies and tooltips. And even has a few options.
 
+<h3>Recent changes</h3>
+<p>
+    14-11-2014 - calcId renamed to calcid
+</p>
+
 See a demo here:
 https://dl.dropboxusercontent.com/u/1823537/dependingFields/index.html
 
@@ -19,7 +24,7 @@ https://dl.dropboxusercontent.com/u/1823537/dependingFields/index.html
 <div class="form-group">
     <div class="input-group">
         <div class="input-group-addon">X</div>
-        <input calcId="sum1" type="number" class="form-control">
+        <input calcid="sum1" type="number" class="form-control">
     </div>
 </div>
 ```
@@ -27,8 +32,8 @@ https://dl.dropboxusercontent.com/u/1823537/dependingFields/index.html
 <h3>Initialize the Javascript:</h3>
 ```javascript
             var init = new InitDependableFields({
-                //Use calcId instead of id. Default: false
-                calcId: true,
+                //Use calcid instead of id. Default: false
+                calcid: true,
                 //Disable instant calculations. Default: false
                 disableInstantCalculation: false,
                 //Show NaN values. Default: false

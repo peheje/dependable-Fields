@@ -155,11 +155,11 @@ var InitDependableFields = function (options) {
 
 
     //if option calc id is used, use instead of normal id
-    if (options && options.calcId) {
+    if (options && options.calcid) {
         idSelectorStrategy = function (id) {
-            return $("input[calcId='" + id + "']");
+            return $("input[calcid='" + id + "']");
         }
-        idAttribute = "calcId";
+        idAttribute = "calcid";
     }
 
 
