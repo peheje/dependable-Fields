@@ -5,6 +5,7 @@ Javascript that makes adding calculations to input fields depending on other inp
 
 <h3>Recent changes</h3>
 <p>
+    15-11-2014 - Adding support for colors indicating status of calculation, coming: as an option
     14-11-2014 - calcId renamed to calcid
 </p>
 

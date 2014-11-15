@@ -14,20 +14,6 @@ var InitDependableFields = function (options) {
     //All results will be converted to string after returning
     var calculations = {
 
-        "specificCalculation": function (params) {
-            var depA = parseFloat(params[0]);
-            var depE = parseFloat(params[1]);
-            var depC = parseFloat(params[2]);
-
-            if (depC > 100) {
-                return depE;
-            } else {
-                var res = (depA / depE) + 2 * depC;
-                return res;
-            }
-
-        },
-
         //sum parameters: unlimited (numbers)
         "sum": function (params) {
             var sum = 0;
@@ -46,9 +32,14 @@ var InitDependableFields = function (options) {
         "multiply": function (params) {
             var res = 1;
 
+            var counter = 0;
             for (var i = 0; i < params.length; i++) {
                 if (!params[i]) {
                     params[i] = 1;
+                    counter++;
+                }
+                if (counter > 1) {
+                    return Error("Need at least two arguments.")
                 }
                 res *= parseFloat(params[i]);
             }
@@ -138,6 +129,7 @@ var InitDependableFields = function (options) {
         return dt;
     };
 
+    //Check if the function is defined
     var checkFunctionExist = function (funcName) {
         if (calculations[funcName]) {
             return true;
@@ -146,6 +138,24 @@ var InitDependableFields = function (options) {
             return false;
         }
     }
+
+    //Define the calculation discrepancy visual strategies
+    var different;
+    var same;
+    var warning;
+
+    var bootstrap3_enabled = (typeof $().emulateTransitionEnd == "function");
+    if (bootstrap3_enabled) {
+        different = function (origin) {
+            origin.css("background-color", "rgb(238, 172, 87)")
+        };
+        warning = function (origin) {
+            origin.css("background-color", "rgb(215, 84, 82)")
+        };
+        same = function (origin) {
+            origin.css("background-color", "rgb(95, 183, 96)")
+        };
+    } else {}
 
     //idSelectorStrategy can be changed by the options
     var idSelectorStrategy = function (id) {
@@ -234,14 +244,34 @@ var InitDependableFields = function (options) {
                 $origin.attr("title", func + " (" + depDisplayNames.toString() + ")");
 
                 //If bootstrap 3 is enabled, use their tooltips
-                var bootstrap3_enabled = (typeof $().emulateTransitionEnd == "function");
                 if (bootstrap3_enabled) {
                     $(item).attr("data-toggle", "tooltip");
-                    $("[data-toggle='tooltip']").tooltip({
+                    $(item).tooltip({
                         container: "body"
                     });
                 }
             }
+
+            //Add change event to calculated field, that will mark as different
+            $origin.change(function (event, data) {
+
+                //If change event was invoked with no data or data.nocheck == false, then check the result, else do nothing
+                if (!data || !data.nocheck) {
+
+                    var result = $origin.triggerHandler("dependenciesChanged", {
+                        //Don't update the value, just request return
+                        update: false
+                    });
+
+                    //Compare result and current value
+                    if ($origin.val() != result) {
+                        different($origin);
+                    } else {
+                        same($origin);
+                    }
+
+                }
+            });
 
             //If no arguments, assume direct one-time call
             if (depJquery.length <= 0 && checkFunctionExist(func)) {
@@ -252,7 +282,9 @@ var InitDependableFields = function (options) {
                 depJquery.change(function () {
 
                     //The pleasure of closure
-                    $origin.trigger("dependenciesChanged");
+                    $origin.trigger("dependenciesChanged", {
+                        update: true
+                    });
                 });
 
                 //If option instantCalculation
@@ -263,7 +295,7 @@ var InitDependableFields = function (options) {
                 }
 
                 //add the dependencies changed event to the input with the given function
-                $origin.on("dependenciesChanged", function () {
+                $origin.on("dependenciesChanged", function (event, data) {
                     var $self = $(this);
 
                     //If the function is defined
@@ -272,16 +304,33 @@ var InitDependableFields = function (options) {
                         //Get the parameters from my dependencies
                         var paramValues = dependenciesAsValue(depJquery);
 
-                        //Set my value equal to the result of the function given to me
+                        //Calculate
                         var result = calculations[func](paramValues);
-                        if ((options && options.showNan) || result || result === 0) {
-                            $self.val(result.toString());
+                        var resultType = Object.prototype.toString.call(result);
+
+                        console.log(result.message);
+
+                        //Update or return
+                        if (data.update) {
+                            if (resultType === "[object Error]") {
+                                warning($self);
+                            } else if ((options && options.showNan) || result || result === 0) {
+                                $self.val(result.toString());
+                                same($self);
+                            } else {
+                                $self.val("");
+                                same($self);
+                            }
                         } else {
-                            $self.val("");
+                            return result;
                         }
 
                         //Trigger my change event, to trigger calculations dependent of me
-                        $self.trigger("change");
+                        //Trigger with nocheck: true, because we're sure that the output is correct,
+                        //This is to avoid having to do the calculation twice, we know it's correct
+                        $self.trigger("change", {
+                            nocheck: true
+                        });
                     }
                 });
             }
