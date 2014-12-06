@@ -149,8 +149,15 @@ var InitDependableFields = function (options) {
         different = function (origin) {
             origin.css("background-color", "rgb(238, 172, 87)")
         };
-        warning = function (origin) {
+        warning = function (origin, text) {
             origin.css("background-color", "rgb(215, 84, 82)")
+            var container = origin.parent().parent();
+
+            console.log(container.has("p").length);
+
+            if (text && container.has("warningTxt").length < 1) {
+                container.after("<p warningTxt>" + text + "</p>");
+            }
         };
         same = function (origin) {
             origin.css("background-color", "rgb(95, 183, 96)")
@@ -208,9 +215,7 @@ var InitDependableFields = function (options) {
 
         //Returns array of display names given the ids of the dependables
         var dependenciesAsDisplayNames = function (dependenciesId) {
-
             var displayNames = [];
-
             for (var i = 0; i < dependenciesId.length; i++) {
                 var field = idSelectorStrategy(dependenciesId[i]);
 
@@ -221,7 +226,6 @@ var InitDependableFields = function (options) {
                     displayNames.push($(dependenciesId[i]).val());
                 }
             }
-
             return displayNames;
         };
 
@@ -276,6 +280,7 @@ var InitDependableFields = function (options) {
             //If no arguments, assume direct one-time call
             if (depJquery.length <= 0 && checkFunctionExist(func)) {
                 $origin.val((calculations[func]()).toString());
+                same($origin);
             } else {
 
                 //For each dependencies add a change event
@@ -293,47 +298,44 @@ var InitDependableFields = function (options) {
                         $(this).change();
                     });
                 }
-
-                //add the dependencies changed event to the input with the given function
-                $origin.on("dependenciesChanged", function (event, data) {
-                    var $self = $(this);
-
-                    //If the function is defined
-                    if (checkFunctionExist(func)) {
-
-                        //Get the parameters from my dependencies
-                        var paramValues = dependenciesAsValue(depJquery);
-
-                        //Calculate
-                        var result = calculations[func](paramValues);
-                        var resultType = Object.prototype.toString.call(result);
-
-                        console.log(result.message);
-
-                        //Update or return
-                        if (data.update) {
-                            if (resultType === "[object Error]") {
-                                warning($self);
-                            } else if ((options && options.showNan) || result || result === 0) {
-                                $self.val(result.toString());
-                                same($self);
-                            } else {
-                                $self.val("");
-                                same($self);
-                            }
-                        } else {
-                            return result;
-                        }
-
-                        //Trigger my change event, to trigger calculations dependent of me
-                        //Trigger with nocheck: true, because we're sure that the output is correct,
-                        //This is to avoid having to do the calculation twice, we know it's correct
-                        $self.trigger("change", {
-                            nocheck: true
-                        });
-                    }
-                });
             }
+            //add the dependencies changed event to the input with the given function
+            $origin.on("dependenciesChanged", function (event, data) {
+                var $self = $(this);
+
+                //If the function is defined
+                if (checkFunctionExist(func)) {
+
+                    //Get the parameters from my dependencies
+                    var paramValues = dependenciesAsValue(depJquery);
+
+                    //Calculate
+                    var result = calculations[func](paramValues);
+                    var resultType = Object.prototype.toString.call(result);
+
+                    //Update or return
+                    if (data.update) {
+                        if (resultType === "[object Error]") {
+                            warning($self, result.message);
+                        } else if ((options && options.showNan) || result || result === 0) {
+                            $self.val(result.toString());
+                            same($self);
+                        } else {
+                            $self.val("");
+                            same($self);
+                        }
+                    } else {
+                        return result;
+                    }
+
+                    //Trigger my change event, to trigger calculations dependent of me
+                    //Trigger with nocheck: true, because we're sure that the output is correct,
+                    //This is to avoid having to do the calculation twice, we know it's correct
+                    $self.trigger("change", {
+                        nocheck: true
+                    });
+                }
+            });
         });
     });
 };
