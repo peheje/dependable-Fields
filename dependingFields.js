@@ -146,23 +146,39 @@ var InitDependableFields = function (options) {
 
     var bootstrap3_enabled = (typeof $().emulateTransitionEnd == "function");
     if (bootstrap3_enabled) {
+
+        //Different strategy
         different = function (origin) {
-            origin.css("background-color", "rgb(238, 172, 87)")
+            origin.css("background-color", "rgb(238, 172, 87)");
         };
+
+        //Warning strategy
         warning = function (origin, text) {
-            origin.css("background-color", "rgb(215, 84, 82)")
-            var container = origin.parent().parent();
+            origin.css("background-color", "rgb(215, 84, 82)");
 
-            console.log(container.has("p").length);
+            //Show warning text, if not already shown
+            var formGroup = origin.closest("div[class='form-group']");
+            var errorMsg = formGroup.find("div[errorMessage]");
 
-            if (text && container.has("warningTxt").length < 1) {
-                container.after("<p warningTxt>" + text + "</p>");
+            if (!formGroup.hasClass("errorShown")) {
+                formGroup.addClass("errorShown");
+                formGroup.append("<div errorMessage>" + text + "</div>");
             }
         };
+
+        //Same strategy
         same = function (origin) {
             origin.css("background-color", "rgb(95, 183, 96)")
+
+            //Remove warning
+            var formGroup = origin.closest("div[class*='form-group']");
+            formGroup.removeClass("errorShown");
+            var errorMsg = formGroup.find("div[errorMessage]");
+            errorMsg.remove();
         };
-    } else {}
+    } else {
+        //If bootstrap is not enabled
+    }
 
     //idSelectorStrategy can be changed by the options
     var idSelectorStrategy = function (id) {
